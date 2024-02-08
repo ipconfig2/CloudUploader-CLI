@@ -73,7 +73,7 @@ CreateStorageAccount() {
         while true; do
             read -p "Enter storage account name: " storageaccountname
             # Checks if the name already exists
-            if [ "$(az storage account exists --name "$storageaccountname")" = true ]; then 
+            if [ "$(az storage account --name "$storageaccountname")" = true ]; then 
                 echo "The name $storageaccountname is already taken, please provide another name..."
             else
                 # Command to create a storage account
@@ -98,7 +98,7 @@ echo "Would you like to create a new Container? (Y/N)"
         while true; do
             read -p "Enter storage account name: " Container
             # Checks if the name already exists
-            if [ "$(az storage container exists --name "$Container")" = true ]; then 
+            if [ "$(az storage container --name "$Container")" = true ]; then 
                 echo "The name $Container is already taken, please provide another name..."
             else
                 # Command to create a Container
