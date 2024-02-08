@@ -86,6 +86,32 @@ CreateStorageAccount() {
     else
         echo "OK, we will not create a new storage account."
     fi
+
+    # Get the connection string for the storage account
+    az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv >> connection_string
+
+    #Create Container 
+echo "Would you like to create a new Container? (Y/N)"
+    read answer
+    
+    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
+        while true; do
+            read -p "Enter storage account name: " Container
+            # Checks if the name already exists
+            if [ "$(az storage container exists --name "$Container")" = true ]; then 
+                echo "The name $Container is already taken, please provide another name..."
+            else
+                # Command to create a Container
+                az storage container create --account-name $storageaccountname --name $Container --auth-mode login
+                # Command to list Container
+                az storage container list
+                break
+            fi
+        done
+    else
+        echo "OK, we will not create a new container."
+    fi
+    
 }
 
 
