@@ -102,7 +102,7 @@ CreateStorageAccount() {
     else
         echo "OK, we will not create a new Resource Group."
     fi
-
+    #start of things to fo after Resources group Creation process
     CreateStorageAccount
 }
 
