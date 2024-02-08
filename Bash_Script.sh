@@ -88,7 +88,7 @@ CreateStorageAccount() {
     fi
 
     # Get the connection string for the storage account
-    az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output connection_string
+    connection_string=$(az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv) 
 
     #Create Container 
 echo "Would you like to create a new Container? (Y/N)"
