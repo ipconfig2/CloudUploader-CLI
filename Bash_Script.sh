@@ -10,7 +10,7 @@ Authentication() {
     echo "You're logged in."
 }
 
-function ResourceGRP() {
+ResourceGRP() {
 
 # Print out 5 recommended regions
 print_out_regions() {
@@ -64,7 +64,7 @@ list_resource_groups() {
 }
 
     # Prompt User
-    echo "Would you like to create a new resource GRP?"
+    echo "Would you like to create a new resource GRP? (Y/N)"
     read answer
 
     if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
@@ -75,6 +75,50 @@ list_resource_groups() {
     else
         echo "OK, we will not create a new Resource Group."
     fi
+}
+
+#Creates Storage account, Container, list Blob, Upload blob
+FileUpload(){
+
+CreateStorageAccount(){
+
+#Prompt User if they want to create a Storage account
+    echo "Would you like to create a new storage account? (Y/N)"
+    read answer
+
+    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
+         read -p "Enter storage account name: " stroageaccountname
+         #Checks if the name already exists
+         if [ $(az storage account exists --name $stroageaccountname) = true ]; then 
+            echo "The name $stroageaccountname exists, please provide another name..."
+        else
+            break
+        fi
+    #Command to create a storage account
+    az storage account create --name $storageaccountname --resource-group $resourcegroup --location $selected_region --sku Standard_ZRS --encryption-services blob
+    #Command to list storage accounts
+    az storage account list -g $resourcegroup
+    else
+        echo "OK, we will not create a new storage account."
+    fi
+    
+}
+
+CreateContainer(){
+
+
+}
+
+ListBlob(){
+
+
+}
+
+UploadBlob(){
+
+
+}
+
 }
 
 Authentication
