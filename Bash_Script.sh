@@ -77,5 +77,5 @@ list_resource_groups() {
     fi
 }
 
-Authentication
+#Authentication
 ResourceGRP
