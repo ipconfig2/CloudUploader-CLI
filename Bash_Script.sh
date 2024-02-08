@@ -40,10 +40,10 @@ check_region() {
     done
 }
 
-    # Check if resource group already exists.
+    # Check if the resource group already exists.
 check_resource_group () {
     while true; do
-        read -p "Enter a name for you resource group: " resource_group
+        read -p "Enter a name for your resource group: " resource_group
         if [ $(az group exists --name $resource_group) = true ]; then 
             echo "The group $resource_group exists in $selected_region, please provide another name..."
         else
@@ -67,7 +67,7 @@ list_resource_groups() {
     #Prompt User
     echo "Would you like to create a new resource GRP?"
     read answer
-        if ["$answer" = "yes"] || ["$answer" = "y"]; then 
+        if ["$answer" == "yes"] || ["$answer" == "y"]; then 
                 print_out_regions
                 check_region
                 create_resource_group
