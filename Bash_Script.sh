@@ -111,7 +111,10 @@ echo "Would you like to create a new Container? (Y/N)"
     else
         echo "OK, we will not create a new container."
     fi
-    
+
+    read -p "Enter File Path: " FilePath
+    #upload file
+    az storage blob upload-batch --source . --destination $Container --destination-path $FilePath --account-name $storageaccountname --sas-token "$connection_string"
 }
 
 
