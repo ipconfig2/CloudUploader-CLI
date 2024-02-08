@@ -10,7 +10,7 @@ Authentication() {
     echo "You're logged in."
 }
 
-ResourceGRP() {
+Creation() {
 
 # Print out 5 recommended regions
 print_out_regions() {
@@ -109,4 +109,4 @@ CreateStorageAccount() {
 
 
 Authentication
-ResourceGRP
+Creation
