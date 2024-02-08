@@ -69,6 +69,7 @@ list_resource_groups() {
 
     if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
         check_region
+        check_resource_group
         create_resource_group
         list_resource_groups
     else
