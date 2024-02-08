@@ -65,29 +65,29 @@ list_resource_groups() {
 
 #Creates Storage account, Container, list Blob, Upload blob
 
-CreateStorageAccount(){
-
-#Prompt User if they want to create a Storage account
+CreateStorageAccount() {
     echo "Would you like to create a new storage account? (Y/N)"
     read answer
 
     if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
-         read -p "Enter storage account name: " stroageaccountname
-         #Checks if the name already exists
-         if [ $(az storage account exists --name $stroageaccountname) = true ]; then 
-            echo "The name $stroageaccountname exists, please provide another name..."
-        else
-            break
-        fi
-    #Command to create a storage account
-    az storage account create --name $storageaccountname --resource-group $resourcegroup --location $selected_region --sku Standard_ZRS --encryption-services blob
-    #Command to list storage accounts
-    az storage account list -g $resourcegroup
+        while true; do
+            read -p "Enter storage account name: " storageaccountname
+            # Checks if the name already exists
+            if [ "$(az storage account exists --name "$storageaccountname")" = true ]; then 
+                echo "The name $storageaccountname is already taken, please provide another name..."
+            else
+                # Command to create a storage account
+                az storage account create --name "$storageaccountname" --resource-group "$resource_group" --location "$selected_region" --sku Standard_ZRS --encryption-services blob
+                # Command to list storage accounts
+                az storage account list -g "$resource_group"
+                break
+            fi
+        done
     else
         echo "OK, we will not create a new storage account."
     fi
-    
 }
+
 
 
     # Prompt User
