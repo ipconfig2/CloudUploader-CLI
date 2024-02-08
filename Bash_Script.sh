@@ -67,16 +67,15 @@ list_resource_groups() {
     #Prompt User
     echo "Would you like to create a new resource GRP?"
     read answer
-        if [$answer == "yes"] || [$answer == "y"];
-            then {
+        if ["$answer" = "yes"] || ["$answer" = "y"]; then 
                 print_out_regions
                 check_region
                 create_resource_group
                 list_resource_groups
-            }
-            else{
+            else
                 echo "OK We will make a Resource Group"
-            }
+            fi
+        done
 }
 
 
