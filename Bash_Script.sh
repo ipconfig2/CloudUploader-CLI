@@ -10,7 +10,7 @@ Authentication() {
     echo "You're logged in."
 }
 
-ResourceGRP(){
+function ResourceGRP() {
 
 # Print out 5 recommended regions
 print_out_regions() {
@@ -63,22 +63,18 @@ list_resource_groups() {
     az group list -o table
 }
 
-}
-    #Prompt User
+    # Prompt User
     echo "Would you like to create a new resource GRP?"
     read answer
-        if ["$answer" == "yes"] || ["$answer" == "y"]; then 
-                print_out_regions
-                check_region
-                create_resource_group
-                list_resource_groups
-            else
-                echo "OK We will make a Resource Group"
-            fi
-        done
+
+    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
+        check_region
+        create_resource_group
+        list_resource_groups
+    else
+        echo "OK, we will not create a new Resource Group."
+    fi
 }
-
-
 
 Authentication
 ResourceGRP
