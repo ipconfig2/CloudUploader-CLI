@@ -63,22 +63,7 @@ list_resource_groups() {
     az group list -o table
 }
 
-    # Prompt User
-    echo "Would you like to create a new resource GRP? (Y/N)"
-    read answer
-
-    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
-        check_region
-        check_resource_group
-        create_resource_group
-        list_resource_groups
-    else
-        echo "OK, we will not create a new Resource Group."
-    fi
-}
-
 #Creates Storage account, Container, list Blob, Upload blob
-FileUpload(){
 
 CreateStorageAccount(){
 
@@ -94,7 +79,6 @@ CreateStorageAccount(){
         else
             break
         fi
-        done
     #Command to create a storage account
     az storage account create --name $storageaccountname --resource-group $resourcegroup --location $selected_region --sku Standard_ZRS --encryption-services blob
     #Command to list storage accounts
@@ -105,23 +89,24 @@ CreateStorageAccount(){
     
 }
 
-CreateContainer(){
 
+    # Prompt User
+    echo "Would you like to create a new resource GRP? (Y/N)"
+    read answer
 
+    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
+        check_region
+        check_resource_group
+        create_resource_group
+        list_resource_groups
+    else
+        echo "OK, we will not create a new Resource Group."
+    fi
+
+    CreateStorageAccount
 }
 
-ListBlob(){
 
-
-}
-
-UploadBlob(){
-
-
-}
-
-}
 
 Authentication
 ResourceGRP
-FileUpload
