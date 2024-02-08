@@ -88,7 +88,7 @@ CreateStorageAccount() {
     fi
 
     # Get the connection string for the storage account
-    az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv >> connection_string
+    az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output connection_string
 
     #Create Container 
 echo "Would you like to create a new Container? (Y/N)"
@@ -128,7 +128,7 @@ echo "Would you like to create a new Container? (Y/N)"
     else
         echo "OK, we will not create a new Resource Group."
     fi
-    #start of things to fo after Resources group Creation process
+    #After the Resources group Creation process
     CreateStorageAccount
 }
 
