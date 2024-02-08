@@ -94,6 +94,7 @@ CreateStorageAccount(){
         else
             break
         fi
+        done
     #Command to create a storage account
     az storage account create --name $storageaccountname --resource-group $resourcegroup --location $selected_region --sku Standard_ZRS --encryption-services blob
     #Command to list storage accounts
@@ -123,3 +124,4 @@ UploadBlob(){
 
 Authentication
 ResourceGRP
+FileUpload
