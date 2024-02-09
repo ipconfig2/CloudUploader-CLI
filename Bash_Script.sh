@@ -100,17 +100,17 @@ CreateContainer(){
 }
 
 CheckFile(){
-    # Check if the filename is provided as an argument
-if [ -z "$1" ]; then
-    echo "Error: Please provide a filename as an argument."
-    exit 1
-fi
-# Check if the file exists
-FILENAME=$1
-if [ ! -f "$FILENAME" ]; then
-    echo "Error: File not found - $FILENAME"
-    exit 1
-fi
+    # Azure Storage Account and Container information
+    FILE_NAME=$1  # The blob (file) name passed as an argument
+
+    # Check if the blob exists
+    az storage blob show --account-name $storageaccountname --container-name $Container --name $FILE_NAME 2>/dev/null
+
+    if [ $? -eq 0 ]; then
+        echo "File already exists in Azure Storage."
+    else
+        exit 1
+    fi
 }
 
 UploadFile(){
