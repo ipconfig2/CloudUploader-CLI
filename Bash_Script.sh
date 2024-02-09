@@ -107,7 +107,7 @@ CheckFile(){
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
     else
-        exit 1
+        break
     fi
 }
 
@@ -159,5 +159,5 @@ echo "connection_string: $connection_string"
 
 
 FILE_NAME=$1  # The blob (file) name passed as an argument
-#Authentication
+Authentication
 Creation
