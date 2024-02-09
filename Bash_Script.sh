@@ -79,7 +79,7 @@ CreateStorageAccount() {
             fi
         done
     # Get the connection string for the storage account
-    connection_string=$(az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv) 
+connection_string=$(az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv)
 }
 
 CreateContainer(){
@@ -115,7 +115,13 @@ CheckFile(){
 
 UploadFile(){
     #upload file
-    az storage blob upload-batch --source. --destination $Container --destination-path $FILENAME --account-name $storageaccountname --sas-token "$connection_string"
+     echo "storageaccountname: $storageaccountname"
+echo "resource_group: $resource_group"
+echo "Filename: $FILENAME"
+echo "Filename: $Container"
+echo "connection_string: $connection_string"
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILENAME --file $FILENAME --auth-mode login
+    echo "uploaded"
     }
 
     # Prompt User
@@ -148,6 +154,7 @@ UploadFile(){
       else
         echo "OK, we will not create a new Container."
     fi
+
     CheckFile
     UploadFile
 }
