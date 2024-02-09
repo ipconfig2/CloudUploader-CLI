@@ -101,11 +101,9 @@ CreateContainer(){
 
 CheckFile(){
     # Azure Storage Account and Container information
-    FILE_NAME=$1  # The blob (file) name passed as an argument
-
+    echo "filename: $FILE_NAME"
     # Check if the blob exists
-    az storage blob show --account-name $storageaccountname --container-name $Container --name $FILE_NAME 2>/dev/null
-
+    az storage blob show -c $Container -n $FILE_NAME 2>/dev/null
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
     else
@@ -160,6 +158,6 @@ echo "connection_string: $connection_string"
 }
 
 
-
-Authentication
+FILE_NAME=$1  # The blob (file) name passed as an argument
+#Authentication
 Creation
