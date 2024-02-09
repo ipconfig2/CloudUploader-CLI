@@ -107,7 +107,7 @@ CheckFile(){
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
     else
-        break
+        echo "Name not taken"
     fi
 }
 
@@ -115,10 +115,10 @@ UploadFile(){
     #upload file
      echo "storageaccountname: $storageaccountname"
 echo "resource_group: $resource_group"
-echo "Filename: $FILENAME"
-echo "Filename: $Container"
+echo "Filename: $FILE_NAME"
+echo "Conainer Name: $Container"
 echo "connection_string: $connection_string"
-    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILENAME --file $FILENAME --auth-mode login
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --auth-mode login
     echo "uploaded"
     }
 
