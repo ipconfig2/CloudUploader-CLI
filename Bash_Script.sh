@@ -11,7 +11,6 @@ Authentication() {
 }
 
 Creation() {
-
 # Print out 5 recommended regions
 print_out_regions() {
     regions_array=($( az account list-locations --query "[?metadata.regionCategory=='Recommended'].{Name:name}" -o tsv | head -n 5))
@@ -112,9 +111,19 @@ echo "Would you like to create a new Container? (Y/N)"
         echo "OK, we will not create a new container."
     fi
 
-    read -p "Enter File Path: " FilePath
+    # Check if the filename is provided as an argument
+if [ -z "$1" ]; then
+    echo "Error: Please provide a filename as an argument."
+    exit 1
+fi
+# Check if the file exists
+FILENAME=$1
+if [ ! -f "$FILENAME" ]; then
+    echo "Error: File not found - $FILENAME"
+    exit 1
+fi
     #upload file
-    az storage blob upload-batch --source . --destination $Container --destination-path $FilePath --account-name $storageaccountname --sas-token "$connection_string"
+    az storage blob upload-batch --source. --destination $Container --destination-path $FILENAME --account-name $storageaccountname --sas-token "$connection_string"
 }
 
 
