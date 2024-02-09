@@ -77,6 +77,7 @@ CreateStorageAccount() {
                 az storage account list -g "$resource_group"
                 break
             fi
+        done
     # Get the connection string for the storage account
     connection_string=$(az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv) 
 }
@@ -84,7 +85,7 @@ CreateStorageAccount() {
 CreateContainer(){
     
         while true; do
-            read -p "Enter storage account name: " Container
+            read -p "Enter Container name: " Container
             # Checks if the name already exists
             if [ "$(az storage container --name "$Container")" = true ]; then 
                 echo "The name $Container is already taken, please provide another name..."
@@ -95,6 +96,7 @@ CreateContainer(){
                 az storage container list
                 break
             fi
+        done
 }
 
 CheckFile(){
