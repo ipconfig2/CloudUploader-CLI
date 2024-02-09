@@ -65,10 +65,6 @@ list_resource_groups() {
 #Creates Storage account, Container, list Blob, Upload blob
 
 CreateStorageAccount() {
-    echo "Would you like to create a new storage account? (Y/N)"
-    read answer
-
-    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
         while true; do
             read -p "Enter storage account name: " storageaccountname
             # Checks if the name already exists
@@ -81,19 +77,12 @@ CreateStorageAccount() {
                 az storage account list -g "$resource_group"
                 break
             fi
-        done
-    else
-        echo "OK, we will not create a new storage account."
-    fi
-
     # Get the connection string for the storage account
     connection_string=$(az storage account show-connection-string --name $storageaccountname --resource-group $resource_group --output tsv) 
+}
 
-    #Create Container 
-echo "Would you like to create a new Container? (Y/N)"
-    read answer
+CreateContainer(){
     
-    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then 
         while true; do
             read -p "Enter storage account name: " Container
             # Checks if the name already exists
@@ -106,11 +95,9 @@ echo "Would you like to create a new Container? (Y/N)"
                 az storage container list
                 break
             fi
-        done
-    else
-        echo "OK, we will not create a new container."
-    fi
+}
 
+CheckFile(){
     # Check if the filename is provided as an argument
 if [ -z "$1" ]; then
     echo "Error: Please provide a filename as an argument."
@@ -122,8 +109,12 @@ if [ ! -f "$FILENAME" ]; then
     echo "Error: File not found - $FILENAME"
     exit 1
 fi
+}
+
+UploadFile(){
     #upload file
     az storage blob upload-batch --source. --destination $Container --destination-path $FILENAME --account-name $storageaccountname --sas-token "$connection_string"
+    }
 }
 
 
@@ -140,8 +131,26 @@ fi
     else
         echo "OK, we will not create a new Resource Group."
     fi
-    #After the Resources group Creation process
+    
+     #Create Storage account
+    echo "Would you like to create a new storage account? (Y/N)"
+    read answer
+    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then
     CreateStorageAccount
+    else
+        echo "OK, we will not create a new Storage Account."
+    fi
+    
+    #Create Container 
+    echo "Would you like to create a new Container? (Y/N)"
+    read answer
+    if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then
+    CreateContainer
+      else
+        echo "OK, we will not create a new Container."
+    fi
+    CheckFile
+    UploadFile
 }
 
 
