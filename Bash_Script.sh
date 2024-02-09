@@ -117,9 +117,6 @@ UploadFile(){
     #upload file
     az storage blob upload-batch --source. --destination $Container --destination-path $FILENAME --account-name $storageaccountname --sas-token "$connection_string"
     }
-}
-
-
 
     # Prompt User
     echo "Would you like to create a new resource GRP? (Y/N)"
