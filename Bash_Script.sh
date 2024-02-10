@@ -170,7 +170,7 @@ Option=$1  # The 1st filename passed as an argument
 FILE_NAME=$2  # The 2nd filename passed as an argument
 FILE_NAME_2=$3  # The 2nd filename passed as an argument
 
-#Authentication
+Authentication
 
 # Prompt User
     echo "Would you like to create a new resource GRP? (Y/N)"
@@ -217,7 +217,7 @@ FILE_NAME_2=$3  # The 2nd filename passed as an argument
         UploadFile2
         Link2
     else
-        echo "no second file"
+        echo "Single file"
     fi
     Link1
 else
