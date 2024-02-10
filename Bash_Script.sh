@@ -91,7 +91,7 @@ CreateContainer(){
                 echo "The name $Container is already taken, please provide another name..."
             else
                 # Command to create a Container
-                az storage container create --account-name $storageaccountname --name $Container --auth-mode login
+                az storage container create --account-name $storageaccountname --name $Container  --auth-mode login
                 # Command to list Container
                 az storage container list
                 break
@@ -118,7 +118,8 @@ echo "resource_group: $resource_group"
 echo "Filename: $FILE_NAME"
 echo "Conainer Name: $Container"
 echo "connection_string: $connection_string"
-    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --auth-mode login
+    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname)
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --account-key $STORAGE_KEY --auth-mode key
     echo "uploaded"
     }
 
@@ -159,5 +160,5 @@ echo "connection_string: $connection_string"
 
 
 FILE_NAME=$1  # The blob (file) name passed as an argument
-Authentication
+#Authentication
 Creation
