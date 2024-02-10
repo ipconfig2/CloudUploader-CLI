@@ -118,7 +118,7 @@ echo "resource_group: $resource_group"
 echo "Filename: $FILE_NAME"
 echo "Conainer Name: $Container"
 echo "connection_string: $connection_string"
-    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname)
+    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
     az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --account-key $STORAGE_KEY --auth-mode key
     echo "uploaded"
     }
@@ -160,5 +160,5 @@ echo "connection_string: $connection_string"
 
 
 FILE_NAME=$1  # The blob (file) name passed as an argument
-#Authentication
+Authentication
 Creation
