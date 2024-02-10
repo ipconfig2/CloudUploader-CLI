@@ -133,7 +133,8 @@ echo "connection_string: $connection_string"
         create_resource_group
         list_resource_groups
     else
-        echo "OK, we will not create a new Resource Group."
+        echo "What is the name of the premade resource group you would like to use?"
+        read resource_group
     fi
     
      #Create Storage account
@@ -142,7 +143,8 @@ echo "connection_string: $connection_string"
     if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then
     CreateStorageAccount
     else
-        echo "OK, we will not create a new Storage Account."
+        echo "What is the name of the premade storageaccount you would like to use?"
+        read storageaccountname
     fi
     
     #Create Container 
@@ -151,7 +153,8 @@ echo "connection_string: $connection_string"
     if [ "$answer" == "yes" ] || [ "$answer" == "y" ]; then
     CreateContainer
       else
-        echo "OK, we will not create a new Container."
+        echo "What is the name of the premade container you would like to use?"
+        read Container
     fi
 
     CheckFile
@@ -160,5 +163,5 @@ echo "connection_string: $connection_string"
 
 
 FILE_NAME=$1  # The blob (file) name passed as an argument
-Authentication
+#Authentication
 Creation
