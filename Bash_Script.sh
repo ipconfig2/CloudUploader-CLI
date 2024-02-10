@@ -106,14 +106,15 @@ CheckFile(){
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
     else
-        echo "Name not taken"
+        echo "Successfully checked that file does not already exist"
     fi
 }
 
 UploadFile(){
     #upload file
     export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
-    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --account-key $STORAGE_KEY --auth-mode key
+        #upload command 
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --account-key $STORAGE_KEY --auth-mode key 
     echo "uploaded"
     }
 
@@ -125,7 +126,7 @@ CheckFile2(){
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
     else
-        echo "Name not taken"
+        echo "Successfully checked that file does not already exist"
     fi
 }
 
@@ -133,10 +134,36 @@ UploadFile2(){
     #upload file
 echo "connection_string: $connection_string"
     export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
-    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --file $FILE_NAME_2 --account-key $STORAGE_KEY --auth-mode key
+    #upload command
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --file $FILE_NAME_2 --account-key $STORAGE_KEY --auth-mode key 
     echo "uploaded"
     }
 
+Link1(){
+     # Generate a SAS token for a blob
+    sas_token=$(az storage blob generate-sas --account-name $storageaccountname --container-name $Container --name $FILE_NAME --permissions acdrw --expiry $(date -u -d "1 week" '+%Y-%m-%dT%H:%MZ') --output tsv)
+    #Check if the sas token works
+ if [ -z  "$sas_token" ] || [[  $sas_token == *"ERROR"* ]];then
+        echo "Failed to generate a shareable link for $blob_name.Error: $sas_token"        
+	return 1
+    fi
+
+    blob_url="https://${storageaccountname}.blob.core.windows.net/${Container}/${FILE_NAME}?${sas_token}"
+    echo $blob_url
+}
+
+Link2(){
+     # Generate a SAS token for a blob
+    sas_token=$(az storage blob generate-sas --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --permissions acdrw --expiry $(date -u -d "1 week" '+%Y-%m-%dT%H:%MZ') --output tsv)
+    #Check if the sas token works
+ if [ -z  "$sas_token" ] || [[  $sas_token == *"ERROR"* ]];then
+        echo "Failed to generate a shareable link for $blob_name.Error: $sas_token"        
+	return 1
+    fi
+    # Construct the URL with the SAS token
+    blob_url="https://${storageaccountname}.blob.core.windows.net/${Container}/${FILE_NAME_2}?${sas_token}"
+    echo $blob_url
+}
 #non-function script below
 
 Option=$1  # The 1st filename passed as an argument
@@ -188,9 +215,11 @@ FILE_NAME_2=$3  # The 2nd filename passed as an argument
     if [ "$Option" == "-m" ]; then
         CheckFile2
         UploadFile2
+        Link2
     else
         echo "no second file"
     fi
+    Link1
 else
     echo "Incorrect use of command"
 fi
