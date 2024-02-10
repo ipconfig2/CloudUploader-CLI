@@ -10,7 +10,6 @@ Authentication() {
     echo "You're logged in."
 }
 
-Creation() {
 # Print out 5 recommended regions
 print_out_regions() {
     regions_array=($( az account list-locations --query "[?metadata.regionCategory=='Recommended'].{Name:name}" -o tsv | head -n 5))
@@ -113,17 +112,40 @@ CheckFile(){
 
 UploadFile(){
     #upload file
-     echo "storageaccountname: $storageaccountname"
-echo "resource_group: $resource_group"
-echo "Filename: $FILE_NAME"
-echo "Conainer Name: $Container"
-echo "connection_string: $connection_string"
     export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
     az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --account-key $STORAGE_KEY --auth-mode key
     echo "uploaded"
     }
 
-    # Prompt User
+CheckFile2(){
+    # Azure Storage Account and Container information
+    echo "filename: $FILE_NAME_2"
+    # Check if the blob exists
+    az storage blob show -c $Container -n $FILE_NAME_2 2>/dev/null
+    if [ $? -eq 0 ]; then
+        echo "File already exists in Azure Storage."
+    else
+        echo "Name not taken"
+    fi
+}
+
+UploadFile2(){
+    #upload file
+echo "connection_string: $connection_string"
+    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --file $FILE_NAME_2 --account-key $STORAGE_KEY --auth-mode key
+    echo "uploaded"
+    }
+
+#non-function script below
+
+Option=$1  # The 1st filename passed as an argument
+FILE_NAME=$2  # The 2nd filename passed as an argument
+FILE_NAME_2=$3  # The 2nd filename passed as an argument
+
+#Authentication
+
+# Prompt User
     echo "Would you like to create a new resource GRP? (Y/N)"
     read answer
 
@@ -157,11 +179,18 @@ echo "connection_string: $connection_string"
         read Container
     fi
 
+   if [ "$Option" == "-m" ] || [ "$Option" == "-s" ]; then
+    # ... (other parts of your script)
+
     CheckFile
     UploadFile
-}
 
-
-FILE_NAME=$1  # The blob (file) name passed as an argument
-#Authentication
-Creation
+    if [ "$Option" == "-m" ]; then
+        CheckFile2
+        UploadFile2
+    else
+        echo "no second file"
+    fi
+else
+    echo "Incorrect use of command"
+fi
