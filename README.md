@@ -80,7 +80,8 @@ This Bash script facilitates the upload of files to Azure Storage using the Comm
 
 - Ensure that the Azure CLI is correctly installed on your machine and that you have the necessary permissions to run it. Check the version compatibility with the script requirements.
  ```bash
- az --version```
+ az --version
+```
 
 4. **Check Azure Account Permissions:**
 
