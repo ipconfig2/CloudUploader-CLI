@@ -109,7 +109,7 @@ CheckFile(){
         case $user_decision in
             O|o)
                 echo "Overwriting the existing file..."
-                UploadFile
+                OverwriteFile
                 ;;
             S|s)
                 echo "Skipping the upload..."
@@ -142,6 +142,15 @@ UploadFile(){
     Link1
     }
 
+
+OverwriteFile(){
+    #upload file
+    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
+        #upload command 
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --overwrite --account-key $STORAGE_KEY --auth-mode key 
+    echo "uploaded"
+    Link1
+    }
 CheckFile2(){
     # Azure Storage Account and Container information
     echo "filename: $FILE_NAME_2"
@@ -154,7 +163,7 @@ CheckFile2(){
         case $user_decision in
             O|o)
                 echo "Overwriting the existing file..."
-                UploadFile2
+                OverwriteFile2
                 ;;
             S|s)
                 echo "Skipping the upload..."
@@ -184,6 +193,17 @@ echo "connection_string: $connection_string"
     export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
     #upload command
     az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --file $FILE_NAME_2 --account-key $STORAGE_KEY --auth-mode key 
+    echo "uploaded"
+    Link1
+    Link2
+    }
+
+OverwriteFile2(){
+    #upload file
+echo "connection_string: $connection_string"
+    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
+    #upload command
+    az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --file $FILE_NAME_2 --overwrite --account-key $STORAGE_KEY --auth-mode key 
     echo "uploaded"
     Link1
     Link2
