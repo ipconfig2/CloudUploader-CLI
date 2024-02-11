@@ -68,24 +68,24 @@ This Bash script facilitates the upload of files to Azure Storage using the Comm
 
 - If you encounter issues while using the Azure File Upload Script, follow these steps to troubleshoot and resolve common problems:
 
-1. Check Error Messages:
+1. **Check Error Messages:**
 
 - Review any error messages displayed during script execution. These messages often provide valuable information about the nature of the issue.
 
-2. Review Log Files:
+2. **Review Log Files:**
 
 - If logging is enabled (consider adding a logging feature to your script), review log files for details on each step performed by the script. This can help identify where an error occurred.
 
-3. Verify Azure CLI Installation:
+3. **Verify Azure CLI Installation:**
 
 - Ensure that the Azure CLI is correctly installed on your machine and that you have the necessary permissions to run it. Check the version compatibility with the script requirements.
  ```bash az --version```
 
-4. Check Azure Account Permissions:
+4. **Check Azure Account Permissions:**
 
 - Confirm that your Azure account has the required permissions to create and manage resources. If in doubt, refer to the Azure documentation on role-based access control (RBAC).
 
-5. Inspect Azure Resource Status:
+5. **Inspect Azure Resource Status:**
 
 - Manually check the status of the resource groups, storage accounts, and containers created or used by the script. You can use the Azure Portal or the Azure CLI for this.
 ```bash
@@ -94,11 +94,11 @@ az storage account list
 az storage container list --account-name <your-storage-account>
 ```
 
-6. Verify File Existence:
+6. **Verify File Existence:**
 
 - If you are experiencing issues with file uploads, double-check that the specified files exist in the given paths. Ensure you have read permissions for those files.
 
-7. Update the Script:
+7. **Update the Script:**
 
 - Ensure you are using the latest version of the script. Check for updates in the script repository and update your local copy if needed.
 
