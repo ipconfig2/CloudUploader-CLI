@@ -64,7 +64,7 @@ This Bash script facilitates the upload of files to Azure Storage using the Comm
 
 - **File Handling**: Checks for file existence, handles overwriting, skipping, renaming, and generates shareable links.
 
-##Troubleshooting
+## Troubleshooting
 
 If you encounter issues while using the Azure File Upload Script, follow these steps to troubleshoot and resolve common problems:
 
