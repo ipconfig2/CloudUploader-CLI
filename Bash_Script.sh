@@ -102,11 +102,34 @@ CheckFile(){
     # Azure Storage Account and Container information
     echo "filename: $FILE_NAME"
     # Check if the blob exists
-    az storage blob show -c $Container -n $FILE_NAME 2>/dev/null
+      az storage blob show --account-name $storageaccountname --account-key "$STORAGE_KEY" --container-name $Container --name $FILE_NAME
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
+        read -p "Do you want to (O)verwrite, (S)kip, or (R)ename the file? [O/S/R]: " user_decision
+        case $user_decision in
+            O|o)
+                echo "Overwriting the existing file..."
+                UploadFile
+                ;;
+            S|s)
+                echo "Skipping the upload..."
+                ;;
+            R|r)
+                read -p "Enter a new name for the file: " new_file_name
+                # Rename the file in the shell
+                mv "$FILE_NAME" "$new_file_name"
+                # Update the FILE_NAME variable
+                FILE_NAME="$new_file_name"
+                echo "File renamed to: $FILE_NAME"
+                UploadFile
+                ;;
+            *)
+                echo "Invalid option. Skipping the upload."
+                ;;
+        esac
     else
-        echo "Successfully checked that file does not already exist"
+        echo "File does not exist in Azure Storage."
+        UploadFile
     fi
 }
 
@@ -116,17 +139,42 @@ UploadFile(){
         #upload command 
     az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME --file $FILE_NAME --account-key $STORAGE_KEY --auth-mode key 
     echo "uploaded"
+    Link1
     }
 
 CheckFile2(){
     # Azure Storage Account and Container information
     echo "filename: $FILE_NAME_2"
+    export STORAGE_KEY=$(az storage account keys list --resource-group $resource_group --account-name $storageaccountname | jq -r '.[0].value')
     # Check if the blob exists
-    az storage blob show -c $Container -n $FILE_NAME_2 2>/dev/null
+    az storage blob show --account-name $storageaccountname --account-key "$STORAGE_KEY" --container-name $Container --name $FILE_NAME_2
     if [ $? -eq 0 ]; then
         echo "File already exists in Azure Storage."
+        read -p "Do you want to (O)verwrite, (S)kip, or (R)ename the file? [O/S/R]: " user_decision
+        case $user_decision in
+            O|o)
+                echo "Overwriting the existing file..."
+                UploadFile2
+                ;;
+            S|s)
+                echo "Skipping the upload..."
+                ;;
+            R|r)
+                read -p "Enter a new name for the file: " new_file_name_2
+                # Rename the file in the shell
+                mv "$FILE_NAME_2" "$new_file_name_2"
+                # Update the FILE_NAME variable
+                FILE_NAME_2="$new_file_name_2"
+                echo "File renamed to: $FILE_NAME_2"
+                UploadFile2
+                ;;
+            *)
+                echo "Invalid option. Skipping the upload."
+                ;;
+        esac
     else
-        echo "Successfully checked that file does not already exist"
+        echo "File does not exist in Azure Storage."
+        UploadFile2
     fi
 }
 
@@ -137,6 +185,8 @@ echo "connection_string: $connection_string"
     #upload command
     az storage blob upload --account-name $storageaccountname --container-name $Container --name $FILE_NAME_2 --file $FILE_NAME_2 --account-key $STORAGE_KEY --auth-mode key 
     echo "uploaded"
+    Link1
+    Link2
     }
 
 Link1(){
@@ -207,19 +257,15 @@ Authentication
     fi
 
    if [ "$Option" == "-m" ] || [ "$Option" == "-s" ]; then
-    # ... (other parts of your script)
 
     CheckFile
-    UploadFile
 
     if [ "$Option" == "-m" ]; then
         CheckFile2
-        UploadFile2
-        Link2
     else
         echo "Single file"
     fi
-    Link1
+
 else
     echo "Incorrect use of command"
 fi
